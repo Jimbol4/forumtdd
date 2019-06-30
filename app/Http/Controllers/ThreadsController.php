@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Thread;
 use Illuminate\Http\Request;
 use App\Channel;
+use App\Filters\ThreadFilters;
 
 class ThreadsController extends Controller
 {
@@ -19,27 +20,23 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
-        $threads = $this->getThreads($channel);
+        $threads = $this->getThreads($channel, $filters);
+
+        if (request()->wantsJson()) {
+            return $threads;
+        }
 
         return view('threads.index', compact('threads'));
     }
 
-    /**
-     * 
-     */
-    protected function getThreads($channel)
+    protected function getThreads($channel, $filters)
     {
-        if ($channel->exists) {
-            $threads = $channel->threads()->latest();
-        } else {
-            $threads = Thread::latest();
-        }
+        $threads = Thread::latest()->filter($filters);
 
-        if ($username = request('by')) {
-            $user = \App\User::where('name', $username)->firstOrFail();
-            $threads->where('user_id', $user->id);
+        if ($channel->exists) {
+            $threads->where('channel_id', $channel->id);
         }
 
         return $threads->get();
@@ -88,7 +85,10 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(20),
+        ]);
     }
 
     /**
