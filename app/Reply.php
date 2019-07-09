@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Favourite;
+use App\Favouritable;
 
 class Reply extends Model
 {
+    use Favouritable;
 
-    protected $with = ['owner'];
+    protected $with = ['owner', 'favourites'];
 
     protected $fillable = ['body', 'user_id'];
 

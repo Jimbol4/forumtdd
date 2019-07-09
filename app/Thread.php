@@ -7,7 +7,7 @@ use App\Filters\ThreadFilters;
 
 class Thread extends Model
 {
-    protected $with = ['replies', 'creator'];
+    protected $with = ['creator', 'channel'];
     protected $fillable = ['user_id', 'title', 'body', 'channel_id'];
 
     protected static function boot()
@@ -26,7 +26,9 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany('App\Reply');
+        return $this->hasMany('App\Reply')
+            ->withCount('favourites')
+            ->with('owner');
     }
 
     public function creator()
