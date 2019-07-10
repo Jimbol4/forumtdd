@@ -122,8 +122,11 @@ class ThreadsController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy($channelId, Thread $thread)
     {
-        //
+        $this->authorize('manage', $thread);
+        $thread->delete();
+
+        return redirect('/threads');
     }
 }

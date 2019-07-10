@@ -4,9 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\ThreadFilters;
+use App\Activity;
+use App\RecordsActivity;
 
 class Thread extends Model
 {
+    use RecordsActivity;
+
     protected $with = ['creator', 'channel'];
     protected $fillable = ['user_id', 'title', 'body', 'channel_id'];
 
@@ -16,6 +20,10 @@ class Thread extends Model
 
         static::addGlobalScope('replyCount', function ($builder) {
             $builder->withCount('replies');
+        });
+
+        static::deleting(function ($thread) {
+            $thread->replies()->delete();
         });
     }
 

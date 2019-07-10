@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="/profiles/{{ $thread->creator->name }}">{{ $thread->creator->name }}</a> posted:
-                    {{ $thread->title }}
+                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
                 </div>
 
                 <div class="panel-body">
