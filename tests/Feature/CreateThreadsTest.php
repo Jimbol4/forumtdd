@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Thread;
+use App\Activity;
 
 class CreateThreadsTest extends TestCase
 {
@@ -77,6 +78,8 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function a_thread_can_be_deleted_by_its_owner()
     {
+        $this->withoutExceptionHandling();
+
         $this->signIn();
 
         $thread = create('App\Thread', ['user_id' => auth()->id()]);
@@ -87,6 +90,9 @@ class CreateThreadsTest extends TestCase
 
         $this->assertDatabaseMissing('threads', ['title' => $thread->title]);
         $this->assertDatabaseMissing('replies', ['thread_id' => $thread->id]);
+        $this->assertDatabaseMissing('activities', ['subject_id' => $thread->id]);
+
+        $this->assertEquals(0, Activity::count());
 
     }
 
