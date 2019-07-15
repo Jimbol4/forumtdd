@@ -1,5 +1,4 @@
 window._ = require('lodash');
-
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -11,7 +10,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) { }
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -36,6 +35,12 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+window.events = new Vue;
+
+window.flash = function (message) {
+    window.events.$emit('flash', message);
+};
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
