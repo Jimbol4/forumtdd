@@ -49,4 +49,16 @@ class RepliesController extends Controller
 
         return back()->with('flash', 'Reply deleted!');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Reply  $reply
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Reply $reply)
+    {
+        $this->authorize('manage', $reply);
+        $reply->update(['body' => $request->body]);
+    }
 }
