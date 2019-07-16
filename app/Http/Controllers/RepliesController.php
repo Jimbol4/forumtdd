@@ -35,4 +35,18 @@ class RepliesController extends Controller
 
         return back()->with('flash', 'Your reply has been left');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Reply  $reply
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Reply $reply)
+    {
+        $this->authorize('manage', $reply);
+        $reply->delete();
+
+        return back()->with('flash', 'Reply deleted!');
+    }
 }

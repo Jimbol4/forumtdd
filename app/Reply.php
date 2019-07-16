@@ -24,4 +24,9 @@ class Reply extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function path()
+    {
+        return $this->thread->path() . '#reply-' . $this->id;
+    }
 }
