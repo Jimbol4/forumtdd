@@ -15,6 +15,8 @@ class Reply extends Model
 
     protected $fillable = ['body', 'user_id'];
 
+    protected $appends = ['favoritesCount', 'isFavourited'];
+
     public function thread()
     {
         return $this->belongsTo('App\Thread');

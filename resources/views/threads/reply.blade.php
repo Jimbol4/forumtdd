@@ -6,14 +6,7 @@
                     <a href="/profiles/{{ $reply->owner->name }}">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}...
                 </h5>
                 <div>
-                    {{ $reply->favourites->count() }}
-
-                    <form action="/replies/{{ $reply->id }}/favourites" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-default" {{ $reply->isFavourited() ? 'disabled' : '' }}>
-                            {{ $reply->favourites_count }} {{ str_plural('Favourite', $reply->favourites_count) }}
-                        </button>
-                    </form>
+                    <favourite :reply="{{ $reply }}"></favourite>
                 </div>
             </div>
         </div>
@@ -28,12 +21,7 @@
         </div>
         @can('manage', $reply)
             <button class="btn btn-xs mr-1" @click="editing = true">Edit</button>
-
-            <form action="/replies/{{ $reply->id }}" method="POST">
-            @csrf
-            @method('DELETE')
-                <button type="submit" class="btn btn-default">Delete</button>
-            </form>
+            <button class="btn btn-xs mr-1" @click="destroy">Delete</button>
         @endcan
     </div>
 </reply>
