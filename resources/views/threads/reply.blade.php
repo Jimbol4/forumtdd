@@ -5,9 +5,11 @@
                 <h5 class="flex">
                     <a href="/profiles/{{ $reply->owner->name }}">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}...
                 </h5>
-                <div>
-                    <favourite :reply="{{ $reply }}"></favourite>
-                </div>
+                @auth
+                    <div>
+                        <favourite :reply="{{ $reply }}"></favourite>
+                    </div>
+                @endauth
             </div>
         </div>
         <div class="card-body">
