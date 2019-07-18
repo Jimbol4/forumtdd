@@ -6,7 +6,7 @@
                     <a href="/profiles/{{ $reply->owner->name }}">{{ $reply->owner->name }}</a> said {{ $reply->created_at->diffForHumans() }}...
                 </h5>
                 @auth
-                    <div>
+                    <div v-if="signedIn">
                         <favourite :reply="{{ $reply }}"></favourite>
                     </div>
                 @endauth
