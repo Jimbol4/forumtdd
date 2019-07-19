@@ -9,7 +9,6 @@ use Illuminate\Broadcasting\Channel;
 
 class RepliesController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth', ['except' => 'index']);
@@ -17,7 +16,7 @@ class RepliesController extends Controller
 
     public function index($channelId, Thread $thread)
     {
-        return $thread->replies()->paginate(1);
+        return $thread->replies()->paginate(20);
     }
 
     /**
@@ -29,7 +28,6 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, Request $request)
     {
-
         $this->validate($request, [
             'body' => 'required',
         ]);
